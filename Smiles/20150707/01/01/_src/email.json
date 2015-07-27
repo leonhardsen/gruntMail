@@ -1,0 +1,128 @@
+{
+  "config": {
+  	"base": "base_email.html",
+  	"baseIndex": "base_email_index.html",
+  	"snippet": "lorem ipsum dolor"
+  },
+
+  "variables":{ 		
+
+  		"usuarioNome":{
+  			"example": "Mariana",
+  			"reference": "$cond(eq(1, empty(lookup(PRI_NOME))), nothing(), firstname(lookup(PRI_NOME)))$"
+  		},
+  		"usuarioNumero":{
+  			"example": "12548963",
+  			"reference": " $cond(eq(1, empty(lookup(CUSTOMER_ID_))), nothing(), lookup(CUSTOMER_ID_))$"
+  		},
+  		"usuarioData":{
+  			"example": "05/07/2015",
+  			"reference": "$cond(eq(1, empty(lookup(dt_process_saldo))), nothing(), lookup(dt_process_saldo))$"
+  		},
+  		"usuarioSaldo":{
+  			"example": "100.000",
+  			"reference": "$cond(eq(1, empty(lookup(Saldo_Pontos))), nothing(), numberformat(lookup(Saldo_Pontos),1.0f,1,0,de))$"
+  		}
+  		
+  	},
+
+  "structure":{
+
+  	"header": {
+  		"type": "header",
+  		"versao": "normal"
+  	},
+
+  	"slotDia": {
+	  	"type": "slot",
+	  	"is_dynamic": "s",
+	  	"versao": "full",
+	  	"filename": "slot_dia",  	
+	    "image": "dia.jpg",
+	    "height": "39"
+	},
+
+	"slotConfira": {
+	  	"type": "slot",
+	  	"is_dynamic": "s",
+	  	"versao": "full",
+	  	"filename": "slot_confira",  	
+	    "image": "confira.jpg",
+	    "height": "71"
+	},
+
+  	"banner": {
+	  	"type": "banner",
+	    "image": "banner.jpg",
+	    "width": "573",
+	    "height": "408",
+	    "alt": "ALT DO BANNER",
+	    "rilt": "riltBanner"
+	},
+
+	"espaco1": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"texto": {
+	  	"type": "texto",
+	    "text": "lorem ipsum dolor"	    
+	},
+
+	"espaco2": {
+		"type": "espaco",
+		"height": "20"
+	},
+
+	"naoPadrao": {
+	  	"type": "naoPadrao",
+	    "file": "nao_padrao.html",
+	    "is_dynamic": "s",	  	
+	  	"filename": "slot_nao_padrao" 
+	},
+
+	"espaco3": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"naoPadrao2": {
+	  	"type": "naoPadrao",
+	    "file": "nao_padrao2.html",
+	    "is_dynamic": "n"	  	
+	},
+
+	"espaco4": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"slot": {
+	  	"type": "slot",
+	  	"is_dynamic": "s",
+	  	"versao": "padrao",
+	  	"filename": "slot_destino",
+	    "text": "lorem ipsum dolor",
+	    "image": "slot.jpg"  
+	},
+
+	"termos1":{
+		"type": "tj",
+		"is_dynamic": "s",
+		"is_tj": "s",
+		"filename": "tj_termos1",
+		"text": "tj long long long"
+	},
+
+	"termos2":{
+		"type": "tj",
+		"is_dynamic": "n",
+		"is_tj": "s",		
+		"text": "tj long long long 2"
+	}
+
+  }
+
+  
+}

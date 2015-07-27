@@ -1,0 +1,112 @@
+{
+  "config": {
+  	"base": "base_email.html",
+  	"baseIndex": "base_email_index.html"
+  },
+
+  "variaveis":{ 		
+
+  		"usuarioNome":{
+  			"valor": "Mariana",
+  			"var": "$cond(eq(1, empty(lookup(PRI_NOME))), nothing(), firstname(lookup(PRI_NOME)))$"
+  		},
+  		"usuarioNumero":{
+  			"valor": "12548963",
+  			"var": " $cond(eq(1, empty(lookup(CUSTOMER_ID_))), nothing(), lookup(CUSTOMER_ID_))$"
+  		},
+  		"usuarioData":{
+  			"valor": "05/07/2015",
+  			"var": "$cond(eq(1, empty(lookup(dt_process_saldo))), nothing(), lookup(dt_process_saldo))$"
+  		},
+  		"usuarioSaldo":{
+  			"valor": "100.000",
+  			"var": "$cond(eq(1, empty(lookup(Saldo_Pontos))), nothing(), numberformat(lookup(Saldo_Pontos),1.0f,1,0,de))$"
+  		}
+  		
+  	},
+
+  "structure":{
+
+  	"header": {
+  		"type": "header",
+  		"versao": "normal"
+  	},
+
+  	"slotDia": {
+	  	"type": "slot",
+	  	"dinamyc": "s",
+	  	"versao": "full",
+	  	"filename": "slot_dia",  	
+	    "image": "dia.jpg",
+	    "height": "39"
+	},
+
+	"slotConfira": {
+	  	"type": "slot",
+	  	"dinamyc": "s",
+	  	"versao": "full",
+	  	"filename": "slot_confira",  	
+	    "image": "confira.jpg",
+	    "height": "71"
+	},
+
+  	"banner": {
+	  	"type": "banner",
+	    "image": "banner.jpg",
+	    "width": "573",
+	    "height": "408",
+	    "alt": "ALT DO BANNER",
+	    "rilt": "riltBanner"
+	},
+
+	"espaco1": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"texto": {
+	  	"type": "texto",
+	    "text": "lorem ipsum dolor"	    
+	},
+
+	"espaco2": {
+		"type": "espaco",
+		"height": "20"
+	},
+
+	"naoPadrao": {
+	  	"type": "naoPadrao",
+	    "file": "nao_padrao.html",
+	    "dinamyc": "s",	  	
+	  	"filename": "slot_nao_padrao" 
+	},
+
+	"espaco3": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"naoPadrao2": {
+	  	"type": "naoPadrao",
+	    "file": "nao_padrao2.html",
+	    "dinamyc": "n"	  	
+	},
+
+	"espaco4": {
+		"type": "espaco",
+		"height": "30"
+	},
+
+	"slot": {
+	  	"type": "slot",
+	  	"dinamyc": "s",
+	  	"versao": "padrao",
+	  	"filename": "slot_destino",
+	    "text": "lorem ipsum dolor",
+	    "image": "slot.jpg"  
+	}
+
+  }
+
+  
+}
