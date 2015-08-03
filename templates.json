@@ -1,0 +1,33 @@
+{
+  
+  "header": {  	
+  	"templateFile": "header"  	
+  },
+
+  "footer": {   
+    "templateFile": "footer"    
+  },
+
+  "texto": {  	
+  	"templateFile": "texto"  	
+  },
+
+  "tj": {  	
+  	"templateFile": "tj"  	
+  },
+
+  "banner": {   
+    "templateFile": "banner"    
+  },
+
+  "espaco": {   
+    "templateFile": "espaco"    
+  },
+
+  "slot": {   
+    "templateFile": "slot"    
+  }
+
+  	
+  
+}
