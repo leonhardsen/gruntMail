@@ -3,126 +3,149 @@ module.exports = function(grunt){
   grunt.initConfig({
     email: {
       dev: {
-        options: {
-          dir: '',
-          emailJson: '',
+        options: {          
           config: '',
           structure: '',
-          variables: ''                  
+          variables: '',
+          files: '',
+          contentTypes: ''           
         }
       }      
     }
   });
 
-  grunt.registerTask('definePath', function(path){
-      if(path){
-        var dir = "Smiles/"+path+"/";
-        grunt.option('dir', dir);   
-        grunt.task.run('searchJson');
-      }else{
-        grunt.log.writeln("Insira o caminho da pasta no formato YYYYMMDD/JOB/VERSION");
-      }     
+  grunt.registerTask('run', function(path){
+    if(path){        
+      grunt.task.run('searchJson:'+path);
+    }else{
+      grunt.log.writeln("Insira o caminho da pasta no formato YYYYMMDD/JOB/VERSION");
+    }  
+  });
+
+  grunt.registerTask('searchJson', function(path){      
+    var dir = "Smiles/"+path+"/";        
+    if(grunt.file.exists(dir+'_src/email.json')){
+      var emailJson = grunt.file.readJSON(dir+'_src/email.json');
+      grunt.option('config', emailJson.config);
+      grunt.option('structure', emailJson.structure);
+      grunt.option('variables', emailJson.variables); 
+      grunt.option('files', emailJson.files); 
+      grunt.option('contentTypes', emailJson.contentTypes); 
+      grunt.task.run('readJson:'+dir);
+    }else{
+      grunt.log.writeln("Arquivo email.json não encontrado");
+    }          
   }); 
 
-  grunt.registerTask('searchJson', function(){
-      dir = grunt.option('dir');      
-      if(grunt.file.exists(dir+'_src/email.json')){
-        var emailJson = grunt.file.readJSON(dir+'_src/email.json');
-        grunt.option('emailJson', emailJson);   
-        grunt.task.run('setConfig');
-      }else{
-        grunt.log.writeln("Arquivo email.json não encontrado");
-      }
-  });
+  grunt.registerTask('readJson', function(dir){
+    var config = grunt.option('config'); 
+    var structure = grunt.option('structure');    
+    var variables = grunt.option('variables');
+    var files = grunt.option('files');
+    var contentTypes = grunt.option('contentTypes');
 
-  grunt.registerTask('setConfig', function(){
-    emailJson = grunt.option('emailJson');
-    grunt.option('config', emailJson.config);
-    grunt.option('structure', emailJson.structure);
-    grunt.option('variables', emailJson.variables);    
-    grunt.task.run('readJson');
-  });  
+    var templates = grunt.file.readJSON('templates.json');
 
-  grunt.registerTask('readJson', function(){
-    dir = grunt.option('dir'); 
-    config = grunt.option('config'); 
-    structure = grunt.option('structure');    
-    variables = grunt.option('variables');
-    var content_html = '';
-    var content_dynamic = '';  
-    var tj_html = '';
-    var tj_dynamic = '';   
+    var contents_static = [];
+    var contents_dynamic = [];
 
-    for(var blocks in structure){      
-      if(structure[blocks].type == 'banner'){
-        block_html = grunt.file.read('templates/block/bloco_banner.html');      
-      }else if(structure[blocks].type == 'texto'){
-        block_html = grunt.file.read('templates/block/bloco_texto.html');      
-      }else if(structure[blocks].type == 'naoPadrao'){
-        block_html = grunt.file.read(dir+"_src/"+structure[blocks].file);                                  
-      }else if(structure[blocks].type == 'espaco'){
-        block_html = grunt.file.read('templates/block/bloco_espaco.html');      
-      }else if(structure[blocks].type == 'header'){
-        block_html = grunt.file.read('templates/block/bloco_header_'+structure[blocks].versao+'.html');      
-      }else if(structure[blocks].type == 'slot'){
-        block_html = grunt.file.read('templates/block/bloco_slot_'+structure[blocks].versao+'.html');            
-      }else if(structure[blocks].type == 'tj'){
-        block_html = grunt.file.read('templates/block/bloco_tj.html');           
-      }
-
-      for(var block in structure[blocks]){            
-        block_html = block_html.replace("{{ "+block+" }}",structure[blocks][block]);            
-      }
-
-      if(structure[blocks].is_dynamic == 's'){
-        block_dynamic = grunt.file.read('templates/block/bloco_slot_dynamic.html');
-        block_dynamic = block_dynamic.replace("{{ filename }}",(structure[blocks].filename).toUpperCase());  
-
-        for(var variable in variables){            
-          block_html_file = block_html.replace("{{ "+variable+" }}",variables[variable].reference);
+    for(type in contentTypes){
+      contents_static[type] = "";
+      contents_dynamic[type] = "";
+    }
+    
+    // itera nos blocos da estrutura
+    for(var blocks in structure){           
+      // verifica se existe algum template (templates.json) para aquele tipo de estrutura
+      if(typeof templates[structure[blocks].type] != "undefined"){            
+        // verifica se o parametro "version" foi preenchido no bloco
+        if(typeof structure[blocks].version != "undefined"){
+          // caso sim, o nome do arquivo terá o nome da versão
+          var file_name = templates[structure[blocks].type].templateFile+"_"+structure[blocks].version+".html";
+        }else{
+          // caso não, o nome do arquivo será o padrão (templates.json)
+          var file_name = templates[structure[blocks].type].templateFile+".html";
+        }        
+        //le o conteúdo do template
+        template_html = grunt.file.read('templates/block/'+file_name);  
+        template_dynamic = template_html;      
+        // itera nos parametros do bloco
+        for(var block_variable in structure[blocks]){
+          //verifica se há parametros para ser substituidos
+          while(template_html.search("{{ "+block_variable+" }}") != -1){
+            //substitui todos os parametros encontrados no bloco e no template (match)          
+            template_html = template_html.replace("{{ "+block_variable+" }}",structure[blocks][block_variable]);
+            template_dynamic = template_dynamic.replace("{{ "+block_variable+" }}",structure[blocks][block_variable]);
+          }                      
         }
-        var base_slot = grunt.file.read("templates/base/base_slot.html");
-        block_html_file = base_slot.replace("{{ slot_content }}",block_html_file); 
-        grunt.file.write(dir+'slots/'+structure[blocks].filename+'.html', block_html_file);
+        //itera nas variaveis (email.json)
+        for(var variable in variables){
+          //verifica se há variaveis para ser substituidas
+          while(template_html.search("{{ "+variable+" }}") != -1){
+            //substitui todas as variaveis encontradas   
+            template_dynamic = template_dynamic.replace("{{ "+variable+" }}",variables[variable].reference);
+            template_html = template_html.replace("{{ "+variable+" }}",variables[variable].example);
+          }          
+        }
+        //verifica se há alguma referencia a pastas de imagens
+        while(template_html.search("{{ imageDir }}") != -1){
+          //substitui todas as variaveis pelo caminho da pasta  
+          template_dynamic = template_dynamic.replace("{{ imageDir }}",config.imageDir);
+          template_html = template_html.replace("{{ imageDir }}",config.imageDir);
+        } 
 
-        grunt.log.writeln("Arquivo "+dir+'slots/'+structure[blocks].filename+'.html'+" criado");
+        //salva o arquivo temporario do bloco
+        grunt.file.write(dir+'_tmp/'+blocks+'_'+structure[blocks].type+'.html', template_html);
+        //verifica se o bloco é dinamico
+        if(structure[blocks].is_dynamic == 's'){
+          //se sim, le o conteudo do "dynamic_row" linha para adicionar a variavel no html
+          dynamic_row = grunt.file.read('templates/block/dynamic_row.html');
+          //verifica o formato de variavel
+          varType = config.varType;
+          //adiciona o nome do arquivo ao formato da variável
+          varType = varType.replace("filename",(structure[blocks].filename).toUpperCase());
+          //adiciona a variável no arquivo "dynamic_row"
+          dynamic_row = dynamic_row.replace("{{ varType }}",varType);             
+          //concatena o bloco html na variavel contents_dynamic
+          contents_dynamic[structure[blocks].contentType] = contents_dynamic[structure[blocks].contentType] + dynamic_row;
+          //carrega a base de slot
+          var base_slot = grunt.file.read("templates/base/base_slot.html");
+          //adiciona o conteudo do slot na base
+          base_slot = base_slot.replace("{{ slot_content }}",template_dynamic); 
+          //salva o arquivo do slot
+          grunt.file.write(dir+'slots/'+structure[blocks].filename+'.html', base_slot);       
+        }else{          
+          //concatena o bloco html na variavel contents_dynamic
+          contents_dynamic[structure[blocks].contentType] = contents_dynamic[structure[blocks].contentType] + template_dynamic;
+        }        
+        //concatena o bloco html na variavel contents_static
+        contents_static[structure[blocks].contentType] = contents_static[structure[blocks].contentType] + template_html;
       }else{
-        block_dynamic = block_html;
-      }
-      
-      if(structure[blocks].is_tj == 's'){
-        tj_html = tj_html + block_html;
-        tj_dynamic = tj_dynamic + block_dynamic; 
-      }else{
-        content_html = content_html + block_html;
-        content_dynamic = content_dynamic + block_dynamic; 
+        grunt.log.writeln("Template não encontrado");     
       }      
+    }    
+    //itera nos arquivos
+    for(var file in files){
+      //carrega a base determinada para cada arquivo
+      var base = grunt.file.read("templates/base/"+files[file].base+".html");
+      //verifica se o arquivo será criado a partir do conteudo estatico ou dinamico
+      if(files[file].html == "static"){        
+        //itera nos tipos de conteudo dentro de contents_static        
+        for(content in contents_static){
+          //subtitui a marcação na base pelo conteúdo determinado
+          base = base.replace("{{ "+content+" }}",contents_static[content]);              
+        }
+      }else if(files[file].html == "dynamic"){
+        //itera nos tipos de conteudo dentro de contents_dynamic
+        for(content in contents_dynamic){
+          //subtitui a marcação na base pelo conteúdo determinado
+          base = base.replace("{{ "+content+" }}",contents_dynamic[content]); 
+        }
+      }
+      //subtitui o snippet
+      base = base.replace("{{ snippet }}",config.snippet);              
+      //salva o arquivo
+      grunt.file.write(dir+file+'.html', base);
     }
-
-    for(var variable in variables){
-      content_html = content_html.replace("{{ "+variable+" }}",variables[variable].example);
-      content_dynamic = content_dynamic.replace("{{ "+variable+" }}",variables[variable].reference);
-    }
-
-    var base_html = grunt.file.read("templates/base/"+config.base);
-    var base_index = grunt.file.read("templates/base/"+config.baseIndex);
-    base_html = base_html.replace("{{ snippet }}",config.snippet);
-    base_index = base_index.replace("{{ snippet }}",config.snippet);
-
-    disparo_content = base_html.replace("{{ email_content }}",content_dynamic); 
-    disparo_content = disparo_content.replace("{{ tj_content }}",tj_dynamic); 
-    index_contant = base_index.replace("{{ email_content }}",content_dynamic);          
-    index_contant = index_contant.replace("{{ tj_content }}",tj_dynamic);          
-    visualizacao_content = base_html.replace("{{ email_content }}",content_html);
-    visualizacao_content = visualizacao_content.replace("{{ tj_content }}",tj_html); 
-
-    grunt.file.write(dir+'visualizacao.html', visualizacao_content);
-    grunt.file.write(dir+'disparo.html', disparo_content);
-    grunt.file.write(dir+'index.html', index_contant);
-
-    grunt.log.writeln("Arquivo "+dir+"visualizacao.html criado");
-    grunt.log.writeln("Arquivo "+dir+"disparo.html criado");
-    grunt.log.writeln("Arquivo "+dir+"index.html criado");
-  });
-
+  }); 
 }
