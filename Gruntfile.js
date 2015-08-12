@@ -57,17 +57,23 @@ module.exports = function(grunt){
     // itera nos blocos da estrutura
     for(var blocks in structure){           
       // verifica se existe algum template (templates.json) para aquele tipo de estrutura
-      if(typeof templates[structure[blocks].type] != "undefined"){            
-        // verifica se o parametro "version" foi preenchido no bloco
-        if(typeof structure[blocks].version != "undefined"){
-          // caso sim, o nome do arquivo terá o nome da versão
-          var file_name = templates[structure[blocks].type].templateFile+"_"+structure[blocks].version+".html";
-        }else{
-          // caso não, o nome do arquivo será o padrão (templates.json)
-          var file_name = templates[structure[blocks].type].templateFile+".html";
-        }        
+      if(typeof templates[structure[blocks].type] != "undefined"){         
+        // verifica se o tipo do bloco é html (blocos não padrão)
+        if(templates[structure[blocks].type].templateFile == "html"){
+          // caso sim, lê o arquivo na pasta "_src"
+          var file_name = dir+'_src/'+structure[blocks].fileSrc+".html";
+        }else{           
+          // verifica se o parametro "version" foi preenchido no bloco
+          if(typeof structure[blocks].version != "undefined"){
+            // caso sim, o nome do arquivo terá o nome da versão
+            var file_name = 'templates/block/'+templates[structure[blocks].type].templateFile+"_"+structure[blocks].version+".html";
+          }else{
+            // caso não, o nome do arquivo será o padrão (templates.json)
+            var file_name = 'templates/block/'+templates[structure[blocks].type].templateFile+".html";
+          }
+        }     
         //le o conteúdo do template
-        template_html = grunt.file.read('templates/block/'+file_name);  
+        template_html = grunt.file.read(file_name);  
         template_dynamic = template_html;      
         // itera nos parametros do bloco
         for(var block_variable in structure[blocks]){

@@ -1,0 +1,176 @@
+{
+  "config": {
+    "imageDir": "https://www.smiles.com.br/emails/20150728/05/",
+  	"varType": "CONTENT_REGION_|filename|",
+  	"snippet": "lorem ipsum dolor"
+  },
+
+  "files":{
+  		"visualizacao":{
+  			"base": "base_smiles",
+  			"html": "static"  			
+  		},
+  		"index":{
+  			"base": "base_smiles_index",
+  			"html": "dynamic"  			
+  		},
+  		"disparo":{
+  			"base": "base_smiles",
+  			"html": "dynamic"  			
+  		}  		
+  },
+
+  "contentTypes":{
+      "email_content": "",
+      "tj_content": ""
+  },
+
+  "variables":{      
+  		"usuarioNome":{
+  			"example": "Mariana",
+  			"reference": "$cond(eq(1, empty(lookup(PRI_NOME))), nothing(), firstname(lookup(PRI_NOME)))$"
+  		},
+  		"usuarioNumero":{
+  			"example": "12548963",
+  			"reference": " $cond(eq(1, empty(lookup(CUSTOMER_ID_))), nothing(), lookup(CUSTOMER_ID_))$"
+  		},
+  		"usuarioData":{
+  			"example": "05/07/2015",
+  			"reference": "$cond(eq(1, empty(lookup(dt_process_saldo))), nothing(), lookup(dt_process_saldo))$"
+  		},
+  		"usuarioSaldo":{
+  			"example": "100.000",
+  			"reference": "$cond(eq(1, empty(lookup(Saldo_Pontos))), nothing(), numberformat(lookup(Saldo_Pontos),1.0f,1,0,de))$"
+  		}  		
+  	},
+
+  "structure":{
+
+  	"header": {
+  		"type": "header",
+      "contentType": "email_content"  		
+  	}, 
+
+    "slotDia": {
+        "type": "slot",
+        "contentType": "email_content",
+        "is_dynamic": "s",
+        "version": "full",
+        "filename": "slot_dia",   
+        "image": "slots/imgs/dia.jpg",
+        "height": "39",
+        "alt": "SLOT ALT"
+    },
+
+    "slotConfira": {
+        "type": "slot",
+        "contentType": "email_content",
+        "is_dynamic": "s",
+        "version": "full",
+        "filename": "slot_confira",   
+        "image": "slots/imgs/confira.jpg",
+        "height": "71",
+        "alt": "SLOT ALT"
+    }, 
+
+    "banner": {
+      "type": "banner",
+      "contentType": "email_content",
+      "version": "full",
+      "image": "imgs/banner.jpg",
+      "height": "300",
+      "alt": "alt do banner",
+      "link": "http://www.globo.com",
+      "rilt": "rilt_do_banner"   
+    },	
+
+    "espaco1": {
+      "type": "espaco",  
+      "contentType": "email_content",
+      "height": "20"
+    }, 
+
+  	"texto": {
+	  	"type": "texto",
+      "contentType": "email_content",
+      "version": "logo",
+	    "text": "Olá {{ usuarioNome }}, chegou mais uma promo&ccedil;&atilde;o especial para os clientes Diners Club: 30% de milhas b&ocirc;nus ao transferir a partir de 20.000 pontos do cart&atilde;o de cr&eacute;dito Diners Club ou Diners Club Exclusive para sua conta Smiles entre 1 e 31 de agosto de 2015 {{ usuarioNome }}. Com privil&eacute;gios assim, sua conta continua sorrindo.",
+      "image": "imgs/citi.jpg",
+      "width": "96",
+      "height": "44",
+      "alt": "Citi Logo",
+      "space-width": "10",
+      "text-width": "407"
+  	},
+
+    "espaco2": {
+      "type": "espaco",  
+      "contentType": "email_content",
+      "version": "hr",      
+      "height": "20"
+    },
+
+    "slotDinamico": {
+        "type": "slot",
+        "contentType": "email_content",
+        "is_dynamic": "s",        
+        "filename": "slot_dinamico",   
+        "text": "T&iacute;tulo do Slot {{ usuarioNome }}",
+        "text-margin-width": "30",
+        "image": "imgs/imagem.jpg",
+        "width": "513",
+        "margin-width": "30",
+        "height": "169",
+        "alt": "SLOT ALT"
+    },
+
+    "espaco3": {
+      "type": "espaco",  
+      "contentType": "email_content",
+      "version": "hr",      
+      "height": "20"
+    },
+
+    "texto2": {
+      "type": "texto",  
+      "contentType": "email_content",    
+      "text": "Chegou mais uma promo&ccedil;&atilde;o especial para os clientes Diners Club: 30% de milhas b&ocirc;nus ao transferir a partir de 20.000 pontos do cart&atilde;o de cr&eacute;dito Diners Club ou Diners Club Exclusive para sua conta Smiles entre 1 e 31 de agosto de 2015. Com privil&eacute;gios assim, sua conta continua sorrindo."      
+    },  
+
+    "espaco4": {
+      "type": "espaco",  
+      "contentType": "email_content",      
+      "height": "30"
+    }, 
+
+    "naoPadrao": {
+      "type": "html",  
+      "fileSrc": "nao_padrao",  
+      "contentType": "email_content",
+      "is_dynamic": "s",        
+      "filename": "slot_nao_padrao"    
+    }, 
+
+    "naoPadrao2": {
+      "type": "html",  
+      "fileSrc": "nao_padrao2",  
+      "contentType": "email_content"      
+    }, 
+
+    "footer": {
+      "type": "footer",  
+      "contentType": "email_content"
+    }, 
+
+    "termos2":{
+      "type": "tj", 
+      "contentType": "tj_content",
+      "text": "TJ"
+    } 
+
+  	
+
+  }
+
+  
+}

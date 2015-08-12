@@ -1,4 +1,7 @@
 {
+   "html": {    
+    "templateFile": "html"    
+  },
   
   "header": {  	
   	"templateFile": "header"  	
