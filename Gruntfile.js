@@ -46,6 +46,13 @@ module.exports = function(grunt){
 
     var templates = grunt.file.readJSON('templates.json');
 
+    // verifica se na pasta existe um arquivo para valores default
+    if(grunt.file.exists(dir+'_src/default.json')){
+      var defaultValues = grunt.file.readJSON(dir+'_src/default.json');
+    }else{
+      var defaultValues = 0;
+    }
+
     var contents_static = [];
     var contents_dynamic = [];
 
@@ -84,6 +91,20 @@ module.exports = function(grunt){
             template_dynamic = template_dynamic.replace("{{ "+block_variable+" }}",structure[blocks][block_variable]);
           }                      
         }
+
+        // verifica se foi lido um arquivo com valores default
+        if(defaultValues != 0){
+          // itera nos valores default setados do json
+          for(var defaultValue in defaultValues){            
+            //verifica se há parametros para ser substituidos
+            while(template_html.search("{{ "+defaultValue+" }}") != -1){
+              //substitui todos os parametros encontrados no bloco e no template (match)
+              template_html = template_html.replace("{{ "+defaultValue+" }}",defaultValues[defaultValue].default);
+              template_dynamic = template_dynamic.replace("{{ "+defaultValue+" }}",defaultValues[defaultValue].default);
+            }
+          }
+        }
+
         //itera nas variaveis (email.json)
         for(var variable in variables){
           //verifica se há variaveis para ser substituidas

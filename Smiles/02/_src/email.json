@@ -42,7 +42,7 @@
   			"example": "100.000",
   			"reference": "$cond(eq(1, empty(lookup(Saldo_Pontos))), nothing(), numberformat(lookup(Saldo_Pontos),1.0f,1,0,de))$"
   		}  		
-  	},
+  },
 
   "structure":{
 
@@ -80,8 +80,7 @@
       "image": "imgs/banner.jpg",
       "height": "300",
       "alt": "alt do banner",
-      "link": "http://www.globo.com",
-      "rilt": "rilt_do_banner"   
+      "link": "http://www.globo.com"      
     },	
 
     "espaco1": {
@@ -97,8 +96,7 @@
 	    "text": "Olá {{ usuarioNome }}, chegou mais uma promo&ccedil;&atilde;o especial para os clientes Diners Club: 30% de milhas b&ocirc;nus ao transferir a partir de 20.000 pontos do cart&atilde;o de cr&eacute;dito Diners Club ou Diners Club Exclusive para sua conta Smiles entre 1 e 31 de agosto de 2015 {{ usuarioNome }}. Com privil&eacute;gios assim, sua conta continua sorrindo.",
       "image": "imgs/citi.jpg",
       "width": "96",
-      "height": "44",
-      "alt": "Citi Logo",
+      "height": "44",      
       "space-width": "10",
       "text-width": "407"
   	},
@@ -117,11 +115,8 @@
         "filename": "slot_dinamico",   
         "text": "T&iacute;tulo do Slot {{ usuarioNome }}",
         "text-margin-width": "30",
-        "image": "imgs/imagem.jpg",
-        "width": "513",
-        "margin-width": "30",
-        "height": "169",
-        "alt": "SLOT ALT"
+        "image": "imgs/imagem.jpg",               
+        "height": "169"     
     },
 
     "espaco3": {
@@ -166,6 +161,12 @@
       "type": "tj", 
       "contentType": "tj_content",
       "text": "TJ"
+    },
+
+     "termos3":{
+      "type": "tj", 
+      "contentType": "tj_content",
+      "text": "kasdhajsdkajs"
     } 
 
   	
