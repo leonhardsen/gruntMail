@@ -11,8 +11,16 @@
     "templateFile": "footer"    
   },
 
+  "titulo": {   
+    "templateFile": "titulo"    
+  },
+
   "texto": {  	
   	"templateFile": "texto"  	
+  },
+
+  "botao": {    
+    "templateFile": "botao"   
   },
 
   "tj": {  	
@@ -29,8 +37,9 @@
 
   "slot": {   
     "templateFile": "slot"    
-  }
+  },
 
-  	
-  
+  "final_email": {   
+    "templateFile": "final_email"    
+  }  
 }

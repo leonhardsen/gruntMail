@@ -1,2 +1,4 @@
-Smiles/*
-templates/*
+/Smiles/
+/node_modules/
+/Fcb/
+/Tim/

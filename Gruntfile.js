@@ -23,7 +23,7 @@ module.exports = function(grunt){
   });
 
   grunt.registerTask('searchJson', function(path){      
-    var dir = "Smiles/"+path+"/";        
+    var dir = path+"/";        
     if(grunt.file.exists(dir+'_src/email.json')){
       var emailJson = grunt.file.readJSON(dir+'_src/email.json');
       grunt.option('config', emailJson.config);
@@ -73,10 +73,10 @@ module.exports = function(grunt){
           // verifica se o parametro "version" foi preenchido no bloco
           if(typeof structure[blocks].version != "undefined"){
             // caso sim, o nome do arquivo terá o nome da versão
-            var file_name = 'templates/block/'+templates[structure[blocks].type].templateFile+"_"+structure[blocks].version+".html";
+            var file_name = 'templates/block/'+config.templateDir+'/'+templates[structure[blocks].type].templateFile+"_"+structure[blocks].version+".html";
           }else{
             // caso não, o nome do arquivo será o padrão (templates.json)
-            var file_name = 'templates/block/'+templates[structure[blocks].type].templateFile+".html";
+            var file_name = 'templates/block/'+config.templateDir+'/'+templates[structure[blocks].type].templateFile+".html";
           }
         }     
         //le o conteúdo do template
@@ -126,7 +126,7 @@ module.exports = function(grunt){
         //verifica se o bloco é dinamico
         if(structure[blocks].is_dynamic == 's'){
           //se sim, le o conteudo do "dynamic_row" linha para adicionar a variavel no html
-          dynamic_row = grunt.file.read('templates/block/dynamic_row.html');
+          dynamic_row = grunt.file.read('templates/block/'+config.templateDir+'/dynamic_row.html');
           //verifica o formato de variavel
           varType = config.varType;
           //adiciona o nome do arquivo ao formato da variável
@@ -170,7 +170,9 @@ module.exports = function(grunt){
         }
       }
       //subtitui o snippet
-      base = base.replace("{{ snippet }}",config.snippet);              
+      base = base.replace("{{ snippet }}",config.snippet);             
+      //subtitui o title
+      base = base.replace("{{ title }}",config.title);           
       //salva o arquivo
       grunt.file.write(dir+file+'.html', base);
     }

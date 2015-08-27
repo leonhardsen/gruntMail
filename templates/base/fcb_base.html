@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style type="text/css">
+    .master {
+      table-layout: fixed;
+    }
+    * {
+      line-height: 1.2;
+    }
+    a,
+    td,
+    span,
+    b,
+    strong {
+      -webkit-text-size-adjust: none;
+      -ms-text-size-adjust: none;
+      -webkit-text-resize: 100%;
+      text-resize: 100%;
+    }
+    .mobile-only {
+      display: none;
+    }
+    .ExternalClass {
+      background: #FFFFFF;
+    }
+    .gmail a {
+      color: #868a8d;
+      text-decoration: none;
+    }
+    .dataValueHeader a {
+      color: #4599e4;
+      text-decoration: none;
+    }
+    .applelinks a {
+      color: #747474;
+      text-decoration: none;
+    }
+    .applelink a {
+      color: #767676;
+      text-decoration: none;
+    }
+    @media only screen and (max-width: 480px) {
+      table[class="mobile-only"] {
+        display: block !important;
+        text-align: center !important;
+        overflow: visible !important;
+        float: none !important;
+        line-height: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body bgcolor="#bfbfbf" style="margin:0;">
+  <table style="border: 0;" align="center" bgcolor="#bfbfbf" border="0" cellpadding="0" cellspacing="0" width="100%" class="master">
+    <tr>
+      <td align="left" valign="top" style="min-width:600px;">
+        <table style="border: 0;" align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" width="600">
+          <!-- HEADER -->
+          <tr>
+            <td width="600" height="20" align="left" valign="top">
+              <table style="border: 0;" align="center" bgcolor="#010101" border="0" cellpadding="0" cellspacing="0" width="600">
+                <tr>
+                  <td width="30" height="20"></td>
+                  <td width="352" height="20" align="left" valign="middle">
+                    <table style="border: 0;" align="center" bgcolor="#010101" border="0" cellpadding="0" cellspacing="0" width="352">
+                      <tr>
+                        <td align="left" valign="top" style="mso-line-height-rule:exactly; line-height:13px;font-size: 9px; font-family: Verdana, sans-serif; color:#FFFFFF; text-transform:uppercase;">
+                          {{ snippet }}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="68" height="20" align="left" valign="middle">
+                    <table style="border: 0;" align="center" bgcolor="#010101" border="0" cellpadding="0" cellspacing="0" width="68">
+                      <tr>
+                        <td align="left" valign="top" style="mso-line-height-rule:exactly; line-height:13px;font-size: 9px; font-family: Verdana, sans-serif; color:#FFFFFF; text-transform:uppercase;">
+                          <a href="%WEBCOPY%" target="_blank" style="color:#FFFFFF; text-decoration:none;">
+                            Ver on-line
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="10" height="20" align="left" valign="middle">
+                    <table style="border: 0;" align="center" bgcolor="#010101" border="0" cellpadding="0" cellspacing="0" width="10">
+                      <tr>
+                        <td align="left" valign="top" style="mso-line-height-rule:exactly; line-height:13px;font-size: 9px; font-family: Verdana, sans-serif; color:#FFFFFF; text-transform:uppercase;">
+                          |
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="140" height="20" align="left" valign="middle">
+                    <table style="border: 0;" align="center" bgcolor="#010101" border="0" cellpadding="0" cellspacing="0" width="140">
+                      <tr>
+                        <td align="left" valign="top" style="mso-line-height-rule:exactly; line-height:13px;font-size: 9px; font-family: Verdana, sans-serif; color:#FFFFFF; text-transform:uppercase;">
+                          <a href="%UNSUBSCRIBELINK%" target="_blank" style="color:#FFFFFF; text-decoration:none;">
+                            DESCADASTRAR E-MAIL
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          {{ email_content }}          
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

@@ -1,6 +1,8 @@
 {
-  "name": "GruntMailNew",
-  "version": "0.0.1",
+  "name": "GruntMail",
+  "version": "1.0.0",
+  "description": "HTML email generator for Grunt.js.",
+  "author": "Leonardo Ruiz - FCB Brasil <leonardo.oliveira@fcb.com>",
   "devDependencies": {
     "grunt": "^0.4.5"
   }
